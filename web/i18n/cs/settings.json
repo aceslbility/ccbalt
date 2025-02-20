@@ -72,7 +72,7 @@
     "privacy.tunnel.title": "vždy tunelovat soubory",
     "advanced.debug": "ladění",
     "advanced.debug.title": "povolit funkce pro šprty",
-    "advanced.debug.description": "zpřístupní ti stránku s různými informacemi, které mohou být užitečné při ladění.",
+    "advanced.debug.description": "umožňuje snadný přístup k informacím o aplikaci, které mohou být užitečné při ladění. zapnutí této funkce nijak neovlivňuje funkčnost cobaltu.",
     "processing.community": "instance komunity",
     "processing.enable_custom.title": "použít vlastní server pro zpracování",
     "processing.override.title": "použít zpracovací server poskytnutý instancí",
@@ -103,5 +103,10 @@
     "youtube.dub.original": "původní",
     "processing.access_key": "přístupový klíč instance",
     "processing.access_key.title": "použít přístupový klíč instance",
-    "processing.access_key.description": "cobalt použije tento klíč k provádění požadavků na instanci zpracování namísto jiných metod ověřování. ujistěte se, že instance podporuje api klíče!"
+    "processing.access_key.description": "cobalt použije tento klíč k provádění požadavků na instanci zpracování namísto jiných metod ověřování. ujistěte se, že instance podporuje api klíče!",
+    "video.h265": "high efficiency video codec",
+    "video.h265.title": "povolit h265 pro videa",
+    "video.h265.description": "umožňuje stahovat videa z platforem jako tiktok a xiaohongshu ve vyšší kvalitě za cenu kompatibility.",
+    "processing.custom_instance.input.alt_text": "vlastní doména instance",
+    "processing.access_key.input.alt_text": "u-u-i-d přístupový klíč"
 }
