@@ -10,7 +10,9 @@
 
     import dialogs from "$lib/state/dialogs";
     import { link } from "$lib/state/omnibox";
+    import { hapticSwitch } from "$lib/haptics";
     import { updateSetting } from "$lib/state/settings";
+    import { savingHandler } from "$lib/api/saving-handler";
     import { pasteLinkFromClipboard } from "$lib/clipboard";
     import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 
@@ -65,6 +67,8 @@
             return;
         }
 
+        hapticSwitch();
+
         const pastedData = await pasteLinkFromClipboard();
         if (!pastedData) return;
 
@@ -75,7 +79,7 @@
 
             if (!isBotCheckOngoing) {
                 await tick(); // wait for button to render
-                downloadButton.download($link);
+                savingHandler({ url: $link });
             }
         }
     };
@@ -94,7 +98,7 @@
         }
 
         if (e.key === "Enter" && validLink($link) && isFocused) {
-            downloadButton.download($link);
+            savingHandler({ url: $link });
         }
 
         if (["Escape", "Clear"].includes(e.key) && isFocused) {
@@ -122,6 +126,9 @@
                 break;
         }
     };
+
+    $: downloadable = validLink($link);
+    $: clearVisible = $link && !isLoading;
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
@@ -140,7 +147,8 @@
     <div
         id="input-container"
         class:focused={isFocused}
-        class:downloadable={validLink($link)}
+        class:downloadable
+        class:clear-visible={clearVisible}
     >
         <OmniboxIcon loading={isLoading || isBotCheckOngoing} />
         <input
@@ -162,17 +170,13 @@
             disabled={isDisabled}
         />
 
-        {#if $link && !isLoading}
-            <ClearButton click={() => ($link = "")} />
-        {/if}
-        {#if validLink($link)}
-            <DownloadButton
-                url={$link}
-                bind:this={downloadButton}
-                bind:disabled={isDisabled}
-                bind:loading={isLoading}
-            />
-        {/if}
+        <ClearButton click={() => ($link = "")} />
+        <DownloadButton
+            url={$link}
+            bind:this={downloadButton}
+            bind:disabled={isDisabled}
+            bind:loading={isLoading}
+        />
     </div>
 
     <div id="action-container">
@@ -217,7 +221,7 @@
         flex-direction: column;
         max-width: 640px;
         width: 100%;
-        gap: 8px;
+        gap: 6px;
     }
 
     #input-container {
@@ -225,11 +229,27 @@
         display: flex;
         box-shadow: 0 0 0 1.5px var(--input-border) inset;
         border-radius: var(--border-radius);
-        padding: 0 var(--input-padding);
         align-items: center;
         gap: var(--input-padding);
         font-size: 14px;
         flex: 1;
+    }
+
+    #input-container:not(.clear-visible) :global(#clear-button) {
+        display: none;
+    }
+
+    #input-container:not(.downloadable) :global(#download-button) {
+        display: none;
+    }
+
+    #input-container.clear-visible {
+        padding-right: var(--input-padding);
+    }
+
+    :global([dir="rtl"]) #input-container.clear-visible {
+        padding-right: unset;
+        padding-left: var(--input-padding);
     }
 
     #input-container.downloadable {
@@ -237,13 +257,12 @@
     }
 
     #input-container.downloadable:dir(rtl) {
-        padding-right: var(--input-padding);
         padding-left: 0;
     }
 
     #input-container.focused {
-        box-shadow: 0 0 0 1.5px var(--secondary) inset;
-        outline: var(--secondary) 0.5px solid;
+        box-shadow: 0 0 0 1px var(--secondary) inset;
+        outline: var(--secondary) 1px solid;
     }
 
     #input-container.focused :global(#input-icons svg) {
@@ -259,6 +278,7 @@
         width: 100%;
         margin: 0;
         padding: var(--input-padding) 0;
+        padding-left: calc(var(--input-padding) + 28px);
         height: 18px;
 
         align-items: center;
@@ -275,6 +295,14 @@
 
         /* workaround for safari */
         font-size: inherit;
+
+        /* prevents input from poking outside of rounded corners */
+        border-radius: var(--border-radius);
+    }
+
+    :global([dir="rtl"]) #link-area {
+        padding-left: unset;
+        padding-right: calc(var(--input-padding) + 28px);
     }
 
     #link-area:focus-visible {

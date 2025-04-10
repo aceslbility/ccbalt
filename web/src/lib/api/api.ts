@@ -1,7 +1,6 @@
 import { get } from "svelte/store";
 
 import settings from "$lib/state/settings";
-import lazySettingGetter from "$lib/settings/lazy-get";
 
 import { getSession, resetSession } from "$lib/api/session";
 import { currentApiURL } from "$lib/api/api-url";
@@ -10,7 +9,7 @@ import cachedInfo from "$lib/state/server-info";
 import { getServerInfo } from "$lib/api/server-info";
 
 import type { Optional } from "$lib/types/generic";
-import type { CobaltAPIResponse, CobaltErrorResponse } from "$lib/types/api";
+import type { CobaltAPIResponse, CobaltErrorResponse, CobaltSaveRequestBody } from "$lib/types/api";
 
 const getAuthorization = async () => {
     const processing = get(settings).processing;
@@ -43,31 +42,7 @@ const getAuthorization = async () => {
     }
 }
 
-const request = async (url: string, justRetried = false) => {
-    const getSetting = lazySettingGetter(get(settings));
-
-    const requestBody = {
-        url,
-
-        downloadMode: getSetting("save", "downloadMode"),
-        audioBitrate: getSetting("save", "audioBitrate"),
-        audioFormat: getSetting("save", "audioFormat"),
-        tiktokFullAudio: getSetting("save", "tiktokFullAudio"),
-        youtubeDubLang: getSetting("save", "youtubeDubLang"),
-
-        youtubeVideoCodec: getSetting("save", "youtubeVideoCodec"),
-        videoQuality: getSetting("save", "videoQuality"),
-        youtubeHLS: getSetting("save", "youtubeHLS"),
-
-        filenameStyle: getSetting("save", "filenameStyle"),
-        disableMetadata: getSetting("save", "disableMetadata"),
-
-        twitterGif: getSetting("save", "twitterGif"),
-        tiktokH265: getSetting("save", "tiktokH265"),
-
-        alwaysProxy: getSetting("privacy", "alwaysProxy"),
-    }
-
+const request = async (requestBody: CobaltSaveRequestBody, justRetried = false) => {
     await getServerInfo();
 
     const getCachedInfo = get(cachedInfo);
@@ -126,7 +101,7 @@ const request = async (url: string, justRetried = false) => {
     ) {
         resetSession();
         await waitForTurnstile().catch(() => {});
-        return request(url, true);
+        return request(requestBody, true);
     }
 
     return response;

@@ -43,6 +43,9 @@ importers:
       ipaddr.js:
         specifier: 2.2.0
         version: 2.2.0
+      mime:
+        specifier: ^4.0.4
+        version: 4.0.4
       nanoid:
         specifier: ^5.0.9
         version: 5.0.9
@@ -101,8 +104,8 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       '@imput/libav.js-remux-cli':
-        specifier: ^5.5.6
-        version: 5.5.6
+        specifier: ^6.5.7
+        version: 6.5.7
       '@imput/version-info':
         specifier: workspace:^
         version: link:../packages/version-info
@@ -554,8 +557,8 @@ packages:
     resolution: {integrity: sha512-c7hNEllBlenFTHBky65mhq8WD2kbN9Q6gk0bTk8lSBvc554jpXSkST1iePudpt7+A/AQvuHs9EMqjHDXMY1lrA==}
     engines: {node: '>=18.18'}
 
-  '@imput/libav.js-remux-cli@5.5.6':
-    resolution: {integrity: sha512-XdAab90EZKf6ULtD/x9Y2bnlmNJodXSO6w8aWrn97+N2IRuOS8zv3tAFPRC69SWKa8Utjeu5YTYuTolnX3QprQ==}
+  '@imput/libav.js-remux-cli@6.5.7':
+    resolution: {integrity: sha512-41ld+R5aEwllKdbiszOoCf+K614/8bnuheTZnqjgZESwDtX07xu9O8GO0m/Cpsm7O2CyqPZa1qzDx6BZVO15DQ==}
 
   '@imput/psl@2.0.4':
     resolution: {integrity: sha512-vuy76JX78/DnJegLuJoLpMmw11JTA/9HvlIADg/f8dDVXyxbh0jnObL0q13h+WvlBO4Gk26Pu8sUa7/h0JGQig==}
@@ -2519,7 +2522,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.1': {}
 
-  '@imput/libav.js-remux-cli@5.5.6': {}
+  '@imput/libav.js-remux-cli@6.5.7': {}
 
   '@imput/psl@2.0.4':
     dependencies:

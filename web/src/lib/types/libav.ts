@@ -1,17 +1,15 @@
-export type InputFileKind = "video" | "audio";
+import type { CobaltFileReference } from "$lib/types/storage";
 
 export type FileInfo = {
-    type?: string | null,
-    kind: InputFileKind,
-    extension: string,
+    type?: string,
+    format?: string,
 }
 
 export type RenderParams = {
-    blob: Blob,
-    output?: FileInfo,
+    files: CobaltFileReference[],
+    output: FileInfo,
     args: string[],
 }
-
 
 export type FFmpegProgressStatus = "continue" | "end" | "unknown";
 export type FFmpegProgressEvent = {

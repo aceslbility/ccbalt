@@ -62,9 +62,18 @@
     .picker-item {
         position: relative;
         background: none;
-        padding: 2px;
+        padding: 0;
         box-shadow: none;
         border-radius: calc(var(--border-radius) / 2 + 2px);
+    }
+
+    .picker-item:focus-visible::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        box-shadow: var(--focus-ring);
+        border-radius: inherit;
     }
 
     :global(.picker-image) {
@@ -76,7 +85,7 @@
         pointer-events: all;
 
         object-fit: cover;
-        border-radius: calc(var(--border-radius) / 2);
+        border-radius: inherit;
     }
 
     .picker-image.loading {

@@ -5,22 +5,33 @@
     import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
     import IconUpload from "@tabler/icons-svelte/IconUpload.svelte";
 
-    export let file: File | undefined;
+    export let files: FileList | undefined;
     export let draggedOver = false;
     export let acceptTypes: string[];
     export let acceptExtensions: string[];
+    export let maxFileNumber: number = 100;
+
+    let selectorStringMultiple = maxFileNumber > 1 ? ".multiple" : "";
 
     let fileInput: HTMLInputElement;
+
     const openFile = async () => {
         fileInput = document.createElement("input");
         fileInput.type = "file";
         fileInput.accept = acceptTypes.join(",");
 
+        if (maxFileNumber > 1) {
+            fileInput.multiple = true;
+        }
+
         fileInput.click();
         fileInput.onchange = async () => {
-            if (fileInput.files?.length === 1) {
-                file = fileInput.files[0];
-                return file;
+            let userFiles = fileInput?.files;
+            if (userFiles && userFiles.length >= 1) {
+                if (userFiles.length > maxFileNumber) {
+                    return alert("too many files, limit is " + maxFileNumber);
+                }
+                return files = userFiles;
             }
         };
     };
@@ -29,7 +40,7 @@
 <div class="open-file-container" class:dragged-over={draggedOver}>
     <Meowbalt emotion="question" />
 
-    <button class="open-file-button" on:click={openFile}>
+    <button class="button open-file-button" on:click={openFile}>
         <div class="dashed-stroke">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
                 <rect width="100%" height="100%" fill="none" rx="24" ry="24" />
@@ -47,9 +58,9 @@
         <div class="open-file-text">
             <div class="open-title">
                 {#if draggedOver}
-                    {$t("receiver.title.drop")}
+                    {$t("receiver.title.drop" + selectorStringMultiple)}
                 {:else}
-                    {$t("receiver.title")}
+                    {$t("receiver.title" + selectorStringMultiple)}
                 {/if}
             </div>
             <div class="subtext accept-list">

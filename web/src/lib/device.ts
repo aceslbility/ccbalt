@@ -14,6 +14,9 @@ const device = {
         android: false,
         mobile: false,
     },
+    browser: {
+        chrome: false,
+    },
     prefers: {
         language: "en",
         reducedMotion: false,
@@ -22,6 +25,7 @@ const device = {
     supports: {
         share: false,
         directDownload: false,
+        haptics: false,
     },
     userAgent: "sveltekit server",
 }
@@ -31,6 +35,9 @@ if (browser) {
 
     const iPhone = ua.includes("iphone os");
     const iPad = !iPhone && ua.includes("mac os") && navigator.maxTouchPoints > 0;
+
+    const iosVersion = Number(ua.match(/iphone os (\d+)_/)?.[1]);
+    const modernIOS = iPhone && iosVersion >= 18;
 
     const iOS = iPhone || iPad;
     const android = ua.includes("android") || ua.includes("diordna");
@@ -42,11 +49,16 @@ if (browser) {
     };
 
     device.is = {
+        mobile: iOS || android,
+        android,
+
         iPhone,
         iPad,
         iOS,
-        android,
-        mobile: iOS || android,
+    };
+
+    device.browser = {
+        chrome: ua.includes("chrome/"),
     };
 
     device.prefers = {
@@ -58,6 +70,10 @@ if (browser) {
     device.supports = {
         share: navigator.share !== undefined,
         directDownload: !(installed && iOS),
+
+        // not sure if vibrations feel the same on android,
+        // so they're enabled only on ios 18+ for now
+        haptics: modernIOS,
     };
 
     device.userAgent = navigator.userAgent;

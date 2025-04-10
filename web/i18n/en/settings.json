@@ -7,6 +7,8 @@
     "page.advanced": "advanced",
     "page.debug": "info for nerds",
     "page.instances": "instances",
+    "page.local": "local processing",
+    "page.accessibility": "accessibility",
 
     "section.general": "general",
     "section.save": "save",
@@ -72,7 +74,7 @@
     "metadata.filename.nerdy": "nerdy",
     "metadata.filename.description": "filename style will only be used for files tunneled by cobalt. some services don't support filename styles other than classic.",
 
-    "metadata.filename.preview.video": "Video Title",
+    "metadata.filename.preview.video": "Video Title - Video Author",
     "metadata.filename.preview.audio": "Audio Title - Audio Author",
 
     "metadata.file": "file metadata",
@@ -86,11 +88,18 @@
     "saving.copy": "copy",
     "saving.description": "preferred way of saving the file or link from cobalt. if preferred method is unavailable or something goes wrong, cobalt will ask you what to do next.",
 
-    "accessibility": "accessibility",
+    "accessibility.visual": "visual",
+    "accessibility.haptics": "haptics",
+    "accessibility.behavior": "behavior",
+
     "accessibility.transparency.title": "reduce visual transparency",
-    "accessibility.transparency.description": "reduces transparency of surfaces and disables blur effects. may also improve ui performance on low performance devices.",
+    "accessibility.transparency.description": "transparency of surfaces will be reduced and all blur effects will be disabled. may also improve ui performance on less powerful devices.",
     "accessibility.motion.title": "reduce motion",
-    "accessibility.motion.description": "disables animations and transitions whenever possible.",
+    "accessibility.motion.description": "animations and transitions will be disabled whenever possible.",
+    "accessibility.haptics.title": "disable haptics",
+    "accessibility.haptics.description": "all haptic effects will be disabled.",
+    "accessibility.auto_queue.title": "don't open the queue automatically",
+    "accessibility.auto_queue.description": "the processing queue will not be opened automatically whenever a new item is added to it. progress will still be displayed and you will still be able to open it manually.",
 
     "language": "language",
     "language.auto.title": "automatic selection",
@@ -111,8 +120,6 @@
     "advanced.debug.title": "enable features for nerds",
     "advanced.debug.description": "gives you easy access to app info that can be useful for debugging. enabling this does not affect functionality of cobalt in any way.",
 
-    "advanced.data": "data management",
-
     "processing.community": "community instances",
     "processing.enable_custom.title": "use a custom processing server",
     "processing.enable_custom.description": "cobalt will use a custom processing instance if you choose to. even though cobalt has some security measures in place, we are not responsible for any damages done via a community instance, as we have no control over them.\n\nplease be mindful of what instances you use and make sure they're hosted by people you trust.",
@@ -122,5 +129,16 @@
     "processing.access_key.description": "cobalt will use this key to make requests to the processing instance instead of other authentication methods. make sure the instance supports api keys!",
 
     "processing.custom_instance.input.alt_text": "custom instance domain",
-    "processing.access_key.input.alt_text": "u-u-i-d access key"
+    "processing.access_key.input.alt_text": "u-u-i-d access key",
+
+    "advanced.settings_data": "settings data",
+    "advanced.local_storage": "local storage",
+
+    "local.saving": "media processing",
+    "local.saving.title": "mux and convert media on device",
+    "local.saving.description": "when downloading media, cobalt will do needed processing on-device instead of using cloud compute. files will download faster and more reliably.\n\nexclusive local features are not affected by this toggle, they always run locally.",
+
+    "local.webcodecs": "webcodecs",
+    "local.webcodecs.title": "use webcodecs for on-device processing",
+    "local.webcodecs.description": "when decoding or encoding files, cobalt will try to use webcodecs. this feature allows for GPU-accelerated processing of media files, meaning that all decoding & encoding will be way faster.\n\navailability and stability of this feature depends on your device's and browser's capabilities. stuff might break or not work properly."
 }

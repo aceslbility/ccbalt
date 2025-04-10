@@ -1,13 +1,15 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import { t } from "$lib/i18n/translations";
     import { copyURL } from "$lib/download";
+    import { t } from "$lib/i18n/translations";
+    import { hapticConfirm } from "$lib/haptics";
 
     import CopyIcon from "$components/misc/CopyIcon.svelte";
 
     export let title: string;
     export let sectionId: string;
     export let beta = false;
+    export let nolink = false;
     export let copyData = "";
 
     const sectionURL = `${$page.url.origin}${$page.url.pathname}#${sectionId}`;
@@ -32,18 +34,23 @@
         </div>
     {/if}
 
-    <button
-        class="link-copy"
-        aria-label={copied
-            ? $t("button.copied")
-            : $t(`button.copy${copyData ? "" : ".section"}`)}
-        on:click={() => {
-            copied = true;
-            copyURL(copyData || sectionURL);
-        }}
-    >
-        <CopyIcon check={copied} regularIcon={!!copyData} />
-    </button>
+    {#if !nolink}
+        <button
+            class="link-copy"
+            aria-label={copied
+                ? $t("button.copied")
+                : $t(`button.copy${copyData ? "" : ".section"}`)}
+            on:click={() => {
+                if (!copied) {
+                    copyURL(copyData || sectionURL);
+                    hapticConfirm();
+                    copied = true;
+                }
+            }}
+        >
+            <CopyIcon check={copied} regularIcon={!!copyData} />
+        </button>
+    {/if}
 </div>
 
 <style>
@@ -90,7 +97,7 @@
         color: var(--primary);
         font-size: 11px;
         font-weight: 500;
-        line-height: 1.9;
+        line-height: 1.86;
         text-transform: uppercase;
     }
 
